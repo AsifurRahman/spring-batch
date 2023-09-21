@@ -1,2 +1,9 @@
-package com.asif.batchprocessing.repository;public interface StudentRepository {
+package com.asif.batchprocessing.repository;
+
+import com.asif.batchprocessing.model.Student;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface StudentRepository extends JpaRepository<Student, Long> {
 }

@@ -1,10 +1,8 @@
-package com.technonext.rmsbackend.config.swagger;
+package com.asif.batchprocessing.openapi;
 
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OpenAPIConfig {
 
-    @Value("${rms.openapi.local-url}")
+    @Value("${app.openapi.local-url}")
     private String localUrl;
-
-    @Value("${rms.openapi.dev-url}")
-    private String devUrl;
-
-    @Value("${rms.openapi.prod-url}")
-    private String prodUrl;
 
 
     @Bean
@@ -35,13 +27,6 @@ public class OpenAPIConfig {
         localServer.setUrl(localUrl);
         localServer.setDescription("Server URL in Local environment");
 
-        Server devServer = new Server();
-        devServer.setUrl(devUrl);
-        devServer.setDescription("Server URL in Development environment");
-
-        Server prodServer = new Server();
-        prodServer.setUrl(prodUrl);
-        prodServer.setDescription("Server URL in Production environment");
 
         Contact contact = new Contact();
 //        contact.setEmail("asifur.rahman@technonext.com");
@@ -49,16 +34,14 @@ public class OpenAPIConfig {
 //        contact.setUrl("https://www.technonext.com");
 
         Info info = new Info()
-                .title("RMS Service API")
+                .title("Spring Batch Service API")
                 .version("1.0")
                 .contact(contact)
                 .description("This API exposes endpoints");
 
         return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
-                .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()))
                 .info(info)
-                .servers(List.of(localServer, devServer, prodServer));
+                .servers(List.of(localServer));
     }
 
     private SecurityScheme createAPIKeyScheme() {
